@@ -9,10 +9,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("url")
 public class URLModel {
     URLController urlController = new URLController();
+
     @GetMapping("/generateCompact")
-    public String GenerateCompact(String originalURL){
-        urlController.teste();
-        return "";
+    public String GenerateCompact(@RequestParam("originalURL") String originalURL){
+        if(urlController.Compact(originalURL).isPresent()){
+            return urlController.Compact(originalURL).get();
+        }
+        else{
+            return "Internal error while compacting";
+        }
     }
 
     @GetMapping("/get/")
