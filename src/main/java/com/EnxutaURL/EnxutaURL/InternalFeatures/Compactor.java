@@ -1,6 +1,4 @@
-package InternalFeatures;
-
-import java.util.Random;
+package com.EnxutaURL.EnxutaURL.InternalFeatures;
 
 public abstract class Compactor {
     public static String compact(String originalURL){

@@ -1,10 +1,7 @@
-package URL;
+package com.EnxutaURL.EnxutaURL.URL;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.util.Optional;
-import InternalFeatures.Compactor;
+import com.EnxutaURL.EnxutaURL.InternalFeatures.Compactor;
 
 public class URLController {
     public void teste(){
