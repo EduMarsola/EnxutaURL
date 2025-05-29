@@ -20,7 +20,7 @@ public class URLModel {
     public String GenerateCompact(@RequestParam("originalURL") String originalURL){
         if(urlController.Compact(originalURL).isPresent()){
             String reply = urlController.Compact(originalURL).get();
-            Persistence.In(reply);
+            Persistence.In(originalURL, reply);
             return reply;
         }
         else{

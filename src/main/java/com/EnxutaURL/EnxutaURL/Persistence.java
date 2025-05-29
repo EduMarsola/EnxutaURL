@@ -5,20 +5,20 @@ import java.util.Optional;
 
 public abstract class Persistence{
     static Connection c = null;
-    public static void In(String subject){
+    public static void In(String originalURL, String compactURL){
         CreateConnection();
-        Execute("insert into URLS (compactURL) values "+ subject);
+        Execute("insert into URLs (URL_original, URL_short) values ('"+ originalURL +"','"+compactURL+"');");
         DisposeConnection();
     }
 
     public static String Out(String compactURL){
         CreateConnection();
-        String reply = Execute("select originalURL from URLS where compactURL = " + compactURL);
+        String reply = ExecuteResponse("select originalURL from URLs where compactURL = " + compactURL+";");
         DisposeConnection();
         return reply;
     }
 
-    private static String Execute(String query){
+    private static String ExecuteResponse(String query){
         String reply = null;
         try{
             Statement st = c.createStatement();
@@ -29,10 +29,20 @@ public abstract class Persistence{
         }
         return reply;
     }
+
+    private static void Execute(String query){
+        try{
+            Statement st = c.createStatement();
+            st.execute("use EnxutaURL;");
+            st.execute(query);
+        }catch(SQLException e){
+            throw new RuntimeException(e);
+        }
+    }
     private static void CreateConnection(){
         if(c == null){
             try{
-                c = DriverManager.getConnection("", "", "");
+                c = DriverManager.getConnection("jdbc:mysql://localhost:3306/EnxutaURL", "root", "null");
             }catch(SQLException e){
                 throw new RuntimeException(e);
             }
