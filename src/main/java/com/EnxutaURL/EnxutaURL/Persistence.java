@@ -13,17 +13,19 @@ public abstract class Persistence{
 
     public static String Out(String compactURL){
         CreateConnection();
-        String reply = ExecuteResponse("select originalURL from URLs where compactURL = " + compactURL+";");
+        String reply = ExecuteResponse("select URL_original from URLs where URL_short = '"+ compactURL+"';");
         DisposeConnection();
         return reply;
     }
 
     private static String ExecuteResponse(String query){
-        String reply = null;
+        String reply = "";
         try{
             Statement st = c.createStatement();
             ResultSet res = st.executeQuery(query);
-            reply = res.getString("");
+            while(res.next()){
+                reply += res.getString("URL_original");
+            }
         }catch(SQLException e){
             throw new RuntimeException(e);
         }
@@ -40,12 +42,10 @@ public abstract class Persistence{
         }
     }
     private static void CreateConnection(){
-        if(c == null){
-            try{
-                c = DriverManager.getConnection("jdbc:mysql://localhost:3306/EnxutaURL", "root", "null");
-            }catch(SQLException e){
-                throw new RuntimeException(e);
-            }
+        try{
+            c = DriverManager.getConnection("jdbc:mysql://localhost:3306/EnxutaURL", "root", "null");
+        }catch(SQLException e){
+            throw new RuntimeException(e);
         }
     }
 
