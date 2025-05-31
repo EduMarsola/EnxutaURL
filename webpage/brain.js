@@ -1,5 +1,13 @@
-function API_COMPACT(){
+async function GETAPI(originalURL){
+    let reply = await fetch(`http://localhost:3000/URL/generateCompact/?originalURL=${originalURL}`).then(res => res.json()).then(compactURL => console.log(compactURL.compactURL))
+    return reply
+}
+
+async function API_COMPACT(){
     let originalURL = document.getElementById("originalURL").value
+    ChangeURL(await fetch(`http://localhost:3000/URL/generateCompact/?originalURL=${originalURL}`)
+        .then(res => res.json())
+        .then(compactURL => compactURL.compactURL))
 }
 
 function API_DECOMPACT(){

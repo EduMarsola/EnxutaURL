@@ -1,10 +1,8 @@
 package com.EnxutaURL.EnxutaURL.URL;
 
 import com.EnxutaURL.EnxutaURL.Persistence;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import jakarta.persistence.Access;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
@@ -16,18 +14,21 @@ public class URLModel {
     public String teste(){
         return "";
     }
+
+    @CrossOrigin
     @GetMapping("/generateCompact/")
     public String GenerateCompact(@RequestParam("originalURL") String originalURL){
         if(urlController.Compact(originalURL).isPresent()){
             String reply = urlController.Compact(originalURL).get();
             Persistence.In(originalURL, reply);
-            return reply;
+            return "{\"compactURL\" : \"" + reply + "\"}";
         }
         else{
             return "Internal error while compacting";
         }
     }
 
+    @CrossOrigin
     @GetMapping("/get/")
     public String Get(@RequestParam("compactURL") String compactURL){
         if(urlController.DeCompact(compactURL).isPresent()){
