@@ -18,6 +18,12 @@ public abstract class Persistence{
         return reply;
     }
 
+    public static void Delete(String target){
+        CreateConnection();
+        Execute("delete from URLs where URL_original = '"+target+"'");
+        DisposeConnection();
+    }
+
     private static String ExecuteResponse(String query){
         String reply = "";
         try{

@@ -32,7 +32,8 @@ public class URLModel {
     @GetMapping("/get/")
     public String Get(@RequestParam("compactURL") String compactURL){
         if(urlController.DeCompact(compactURL).isPresent()){
-            return urlController.DeCompact(compactURL).get();
+            String insert = urlController.DeCompact(compactURL).get();
+            return insert;
         }
         else{
             return "Internal error while decompacting url";
