@@ -33,7 +33,7 @@ public class URLModel {
     public String Get(@RequestParam("compactURL") String compactURL){
         if(urlController.DeCompact(compactURL).isPresent()){
             String insert = urlController.DeCompact(compactURL).get();
-            return insert;
+            return "{\"originalURL\" : \"" + insert + "\"}";
         }
         else{
             return "Internal error while decompacting url";

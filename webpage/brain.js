@@ -10,13 +10,18 @@ async function API_COMPACT(){
         .then(compactURL => compactURL.compactURL))
 }
 
-function API_DECOMPACT(){
+async function API_DECOMPACT(){
     let compactURL = document.getElementById("compactURL").value
-    ChangeURL(compactURL)
+    /*ChangeURL(await fetch(`http://localhost:3000/URL/get/?compactURL=${compactURL}`))
+        .then(res => res.json())
+        .then(originalURL => originalURL.originalURL)
+        .then(alert(originalURL.originalURL))*/
+    console.log(await fetch(`http://localhost:3000/URL/get/?compactURL=${compactURL}`)
+        .then(res => res.json())
+        .then(originalURL => originalURL.originalURL))
 }
 
-function ChangeURL(newURL){
-    let finalURL = document.getElementById("finalURL")
+function populate(newURL){
     baseURL = ""
     if(!newURL.includes("https")){
         baseURL += "https://"
@@ -24,6 +29,12 @@ function ChangeURL(newURL){
     if(!newURL.includes("www")){
         baseURL += "www."
     }
-    finalURL.innerHTML = baseURL + newURL
-    finalURL.href = baseURL + newURL
+    return baseURL
+}
+
+function ChangeURL(newURL){
+    let finalURL = document.getElementById("finalURL")
+    let final = populate(newURL)
+    finalURL.innerHTML = final + newURL
+    finalURL.href = final + newURL
 }
